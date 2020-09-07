@@ -38,15 +38,4 @@ public class Consumer extends BasePlayer {
       throw new MessagerException(error);
     }
   }
-
-  private String takeMessage() {
-    try {
-      return incomingQueue.take();
-    } catch (InterruptedException e) {
-      String error = String
-          .format("Couldn't receive message from consumer. Exception message : %s", e.getMessage());
-      log.error(error);
-      throw new MessagerException(error);
-    }
-  }
 }
