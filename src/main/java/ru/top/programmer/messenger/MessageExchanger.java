@@ -21,12 +21,12 @@ public class MessageExchanger {
     ExecutorService producerExecutor = Executors.newSingleThreadExecutor();
     ExecutorService consumerExecutor = Executors.newSingleThreadExecutor();
     producerExecutor.submit(() -> {
-      while (producer.getOutgoingMessageCount() < 10) {
+      while (producer.getOutgoingMessageCount() < Constants.MAX_COUNT_OUTGOING_MESSAGES) {
         producer.startMessaging();
       }
     });
     consumerExecutor.submit(() -> {
-      while (consumer.getIncomingMessageCount() < 10) {
+      while (consumer.getIncomingMessageCount() < Constants.MAX_COUNT_INCOMING_MESSAGES) {
         consumer.startMessaging();
       }
     });

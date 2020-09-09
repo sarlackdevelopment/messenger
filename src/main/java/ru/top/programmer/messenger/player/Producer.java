@@ -3,6 +3,7 @@ package ru.top.programmer.messenger.player;
 import java.util.concurrent.BlockingQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.top.programmer.messenger.Constants;
 import ru.top.programmer.messenger.exception.MessagerException;
 
 /**
@@ -32,7 +33,7 @@ public class Producer extends BasePlayer {
 
   private void putMessage() {
     try {
-      outgoingQueue.put("Hi, bro. I'm not very intrusive?");
+      outgoingQueue.put(Constants.RANDOM_MESSAGE);
     } catch (InterruptedException e) {
       String error = String
           .format("Couldn't sent message № %s. Exception message : %s", outgoingMessageCount,
