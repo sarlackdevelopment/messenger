@@ -5,6 +5,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.top.programmer.messenger.exception.MessagerException;
 
+/**
+ * Abstract implementation of interface Player. Somebody who will be receive or send messages
+ */
 public abstract class BasePlayer implements Player {
 
   private static final Logger log = LoggerFactory.getLogger(BasePlayer.class);

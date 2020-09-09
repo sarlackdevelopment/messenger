@@ -10,7 +10,7 @@ public class App {
 
 
   public static void main(String[] args) {
-    // Так как заведомо известно, что участников мало оптимально подойдет BlockingQueue
+    // I think we should use BlockingQueue. That's because we have known about small amount of players
     BlockingQueue<String> incomingQueue = new LinkedBlockingQueue<>(10);
     BlockingQueue<String> outgoingQueue = new LinkedBlockingQueue<>(10);
     Player producer = new Producer("Producer", incomingQueue, outgoingQueue);
