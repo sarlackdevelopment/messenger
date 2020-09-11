@@ -4,18 +4,11 @@ package ru.top.programmer.messenger.player;
  * Interface represents participants of message exchange
  */
 public interface Player {
-
   /**
-   * Outgoing messages counter
-   * @return int - outgoing messages quantity
+   *
+   * @return boolean - condition interrupt messaging thread
    */
-  int getOutgoingMessageCount();
-
-  /**
-   * Incoming messages counter
-   * @return int - incoming messages quantity
-   */
-  int getIncomingMessageCount();
+  boolean IsInterruptConditionMet();
 
   /**
    * Executing messaging process

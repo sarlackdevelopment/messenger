@@ -1,19 +1,19 @@
 package ru.top.programmer.messenger;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-import ru.top.programmer.messenger.player.Consumer;
+import ru.top.programmer.messenger.player.BasePlayer;
 import ru.top.programmer.messenger.player.Player;
-import ru.top.programmer.messenger.player.Producer;
+
+import java.util.concurrent.LinkedBlockingDeque;
 
 public class App {
 
   public static void main(String[] args) {
     // I think we should use BlockingQueue. That's because we have known about small amount of players
-    BlockingQueue<String> incomingQueue = new LinkedBlockingQueue<>(Constants.MAX_COUNT_INCOMING_MESSAGES);
-    BlockingQueue<String> outgoingQueue = new LinkedBlockingQueue<>(Constants.MAX_COUNT_OUTGOING_MESSAGES);
-    Player producer = new Producer("Producer", incomingQueue, outgoingQueue);
-    Player consumer = new Consumer("Consumer", outgoingQueue, incomingQueue);
-    new MessageExchanger(producer, consumer).exchangeMessage();
+    LinkedBlockingDeque<String> messagesQueue = new LinkedBlockingDeque<>(Constants.MAX_COUNT_MESSAGES);
+
+    Player producer = new BasePlayer(Constants.PRODUCER_NAME, messagesQueue);
+    Player consumer = new BasePlayer(Constants.CONSUMER_NAME, messagesQueue);
+
+    new Broker(producer, consumer).exchangeMessage();
   }
 }

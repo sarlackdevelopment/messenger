@@ -5,9 +5,11 @@ package ru.top.programmer.messenger;
  */
 public interface Constants {
 
-    String RANDOM_MESSAGE = "Hi, bro. I'm not very intrusive?";
+    String RANDOM_MESSAGE = "Hello!";
 
-    int MAX_COUNT_OUTGOING_MESSAGES = 10;
-    int MAX_COUNT_INCOMING_MESSAGES = 10;
+    int MAX_COUNT_MESSAGES = 20;
+
+    String CONSUMER_NAME = "Consumer";
+    String PRODUCER_NAME = "Producer";
 
 }

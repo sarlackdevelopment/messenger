@@ -7,12 +7,12 @@ import ru.top.programmer.messenger.player.Player;
 /**
  * Messages broker. This functionality allow to do exchange messages between players
  */
-public class MessageExchanger {
+public class Broker {
 
   private Player producer;
   private Player consumer;
 
-  public MessageExchanger(Player producer, Player consumer) {
+  public Broker(Player producer, Player consumer) {
     this.producer = producer;
     this.consumer = consumer;
   }
@@ -20,16 +20,30 @@ public class MessageExchanger {
   public void exchangeMessage() {
     ExecutorService producerExecutor = Executors.newSingleThreadExecutor();
     ExecutorService consumerExecutor = Executors.newSingleThreadExecutor();
+
     producerExecutor.submit(() -> {
-      while (producer.getOutgoingMessageCount() < Constants.MAX_COUNT_OUTGOING_MESSAGES) {
+      while (true) {
+        if (producer.IsInterruptConditionMet()) break;
         producer.startMessaging();
+        try {
+          Thread.sleep(500);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
       }
     });
     consumerExecutor.submit(() -> {
-      while (consumer.getIncomingMessageCount() < Constants.MAX_COUNT_INCOMING_MESSAGES) {
+      while (true) {
+        if (consumer.IsInterruptConditionMet()) break;
         consumer.startMessaging();
+        try {
+          Thread.sleep(500);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
       }
     });
+
     producerExecutor.shutdown();
     consumerExecutor.shutdown();
   }
