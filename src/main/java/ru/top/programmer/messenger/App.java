@@ -9,7 +9,7 @@ public class App {
 
   public static void main(String[] args) {
     // I think we should use BlockingQueue. That's because we have known about small amount of players
-    LinkedBlockingDeque<String> messagesQueue = new LinkedBlockingDeque<>(Constants.MAX_COUNT_MESSAGES);
+    LinkedBlockingDeque<String> messagesQueue = new LinkedBlockingDeque<>();
 
     Player producer = new BasePlayer(Constants.PRODUCER_NAME, messagesQueue);
     Player consumer = new BasePlayer(Constants.CONSUMER_NAME, messagesQueue);

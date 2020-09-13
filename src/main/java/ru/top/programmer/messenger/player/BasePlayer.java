@@ -1,6 +1,7 @@
 package ru.top.programmer.messenger.player;
 
 import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,8 +15,9 @@ public class BasePlayer implements Player {
 
   private static final Logger log = LoggerFactory.getLogger(BasePlayer.class);
 
-  private String name;
-  private LinkedBlockingDeque<String> messagesQueue;
+  private final String name;
+  private final LinkedBlockingDeque<String> messagesQueue;
+  private final AtomicInteger messageCounter = new AtomicInteger(0);
 
   public BasePlayer(String name, LinkedBlockingDeque<String> messagesQueue) {
     this.name = name;
@@ -24,13 +26,13 @@ public class BasePlayer implements Player {
 
   @Override
   public boolean IsInterruptConditionMet() {
-    return this.messagesQueue.size() == Constants.MAX_COUNT_MESSAGES;
+    return this.messageCounter.get() == Constants.MAX_COUNT_MESSAGES;
   }
 
   @Override
   public void startMessaging() {
 
-    Integer sizeOfQueue = this.messagesQueue.size();
+    int sizeOfQueue = this.messagesQueue.size();
 
     boolean canProducerSendMessage = (this.name.equals(Constants.PRODUCER_NAME) && (sizeOfQueue % 2 == 0));
     boolean canConsumerSendMessage = (this.name.equals(Constants.CONSUMER_NAME) && (sizeOfQueue % 2 != 0));
@@ -38,14 +40,18 @@ public class BasePlayer implements Player {
     try {
 
       if (canProducerSendMessage || canConsumerSendMessage) {
-        String currentMessage = messagesQueue.peekLast();
 
-        String newMessage = String.format("%s %s", 
-                (currentMessage == null ? Constants.RANDOM_MESSAGE : currentMessage), sizeOfQueue.toString());
-        messagesQueue.put(newMessage);
+        String currentMessage = this.messagesQueue.peekLast();
+        String newMessage = String.format("%s %s",
+                (currentMessage == null ? Constants.RANDOM_MESSAGE : currentMessage),
+                ((Integer) sizeOfQueue).toString());
+
+        this.messagesQueue.put(newMessage);
+
+        this.messageCounter.getAndIncrement();
 
         String action = canProducerSendMessage ? "sent" : "received";
-        log.info("Message: \"{}\" was \"{}\" by player \"{}\"", newMessage, action, this.name);
+        log.info("Message: \"{}\" was {} by player \"{}\"", newMessage, action, this.name);
       }
     } catch (InterruptedException e) {
       String error = String

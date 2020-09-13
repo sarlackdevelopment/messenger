@@ -32,6 +32,7 @@ public class Broker {
         }
       }
     });
+
     consumerExecutor.submit(() -> {
       while (true) {
         if (consumer.IsInterruptConditionMet()) break;

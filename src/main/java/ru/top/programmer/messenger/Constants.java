@@ -7,7 +7,7 @@ public interface Constants {
 
     String RANDOM_MESSAGE = "Hello!";
 
-    int MAX_COUNT_MESSAGES = 20;
+    int MAX_COUNT_MESSAGES = 10;
 
     String CONSUMER_NAME = "Consumer";
     String PRODUCER_NAME = "Producer";
